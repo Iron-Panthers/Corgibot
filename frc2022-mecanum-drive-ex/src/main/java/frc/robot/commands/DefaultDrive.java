@@ -7,8 +7,11 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultDrive extends CommandBase {
     
+    // Your suppliers
     private DoubleSupplier xSupplier;
     private DoubleSupplier ySupplier;
+
+    // Drivebase subsystem
     private DriveSubsystem mDrive;
 
     public DefaultDrive (DoubleSupplier xSupplier, DoubleSupplier ySupplier, DriveSubsystem mDrive) {
@@ -21,20 +24,25 @@ public class DefaultDrive extends CommandBase {
 
     @Override
     public void initialize() {
+      // Anything that needs to be reset between commands
       //m_drive.resetEncoders();
     }
   
     @Override
     public void execute() {
 
-        double y = ySupplier.getAsDouble();
-        double x = xSupplier.getAsDouble();
-        mDrive.driveCartesian(y, x, 0.0, 0.0);
+        // get values from suppliers
+        // double y = ySupplier.getAsDouble();
+        // double x = xSupplier.getAsDouble();
+
+        // Use your drive method
+       
     }
   
     @Override
     public void end(boolean interrupted) {
-      mDrive.driveCartesian(0.0, 0.0, 0.0, 0.0);
+
+      // Set your drive method to not move
     }
   
     // @Override
