@@ -25,14 +25,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-//limelight imports
-
-import frc.robot.MecanumDriveCTRE;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 import frc.robot.subsystems.DriveSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
@@ -84,9 +77,11 @@ public class Robot extends TimedRobot {
     //if we don't care about error codes here we can do this too: 
     mDriveTalons.forEach(talon -> talon.configAllSettings(mDriveTalonSRXConfigAll));
     // invert the right side motors
+    // QUESTION: Why do we need to do this?
     mFrontRightTalon.setInverted(true);
     mRearRightTalon.setInverted(true);
     // coast the drive motors - not part of configAllSettings
+    // QUESTION: Why do you think this does?
     mDriveTalons.forEach(talon -> talon.setNeutralMode(NeutralMode.Coast));
     // configure velocity control
     mDriveTalons.forEach(
@@ -103,17 +98,9 @@ public class Robot extends TimedRobot {
     mRobotDrive.setControlMode(ControlMode.Velocity, 260);
 
 
-
-    // auto selections
-    /*
-    m_chooser.setDefaultOption("Simple Auto", mSimpleAuto);
-    m_chooser.addOption("Another Auto", mAnotherAuto);
-    */
-   
-    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, mRobotDrive));
-    
-    new Button(xController::getYButton).whenHeld(new LimelightDriveCommand(mRobotDrive));
-    
+    // IMPORTANT! Create your default command in order to drive
+    //mRobotDrive.setDefaultCommand(new DefaultDrive());
+     
 
   }
 
@@ -159,18 +146,18 @@ public class Robot extends TimedRobot {
     
   }
 
-  //public Command getAutonomousCommand() {
-  //}
+  // //public Command getAutonomousCommand() {
+  // //}
 
-  @Override
-  public void autonomousInit() {
-    // m_auto_command = m_chooser.getSelected();
-    // // schedule the autonomous command
-    // if (m_auto_command != null) {
-    //   m_auto_command.schedule();
-    // }
-  }
+  // @Override
+  // public void autonomousInit() {
+  //   // m_auto_command = m_chooser.getSelected();
+  //   // // schedule the autonomous command
+  //   // if (m_auto_command != null) {
+  //   //   m_auto_command.schedule();
+  //   // }
+  // }
 
-  @Override
-  public void autonomousPeriodic() {}
+  // @Override
+  // public void autonomousPeriodic() {}
 }
