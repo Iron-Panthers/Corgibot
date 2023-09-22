@@ -25,8 +25,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DefaultDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 import frc.robot.subsystems.DriveSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
@@ -100,7 +99,7 @@ public class Robot extends TimedRobot {
 
 
     // IMPORTANT! Create your default command in order to drive
-    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftY, xController::getLeftX, mRobotDrive));
+    //mRobotDrive.setDefaultCommand(new DefaultDrive());
      
 
   }
