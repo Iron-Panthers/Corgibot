@@ -20,10 +20,6 @@ public class DriveSubsystem extends SubsystemBase {
     private double m_rearLeftCoeff = 1;
     private double m_frontRightCoeff = 1;
     private double m_rearRightCoeff = 1;
-    private double FrontLeftWheel = 1;
-    private double RearLeftWheel = 1;
-    private double FrontRightWheel = 1;
-    private double RearRightWheel = 1;
 
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
@@ -33,7 +29,6 @@ public class DriveSubsystem extends SubsystemBase {
         this.mRearLeftTalon = mRearLeftTalon;
         this.mFrontRightTalon = mFrontRightTalon;
         this.mRearRightTalon = mRearRightTalon;
-        
     }
 
    public void drive(DoubleSupplier ySpeed, DoubleSupplier xSpeed)
@@ -42,31 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
     // movement, and Z axis for rotation.
         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
 
-        double y = ySpeed.getAsDouble();
-        double x = xSpeed.getAsDouble();
-
-
-        mFrontLeftTalon.set(m_driveControlMode, y + x);
-        mFrontRightTalon.set(m_driveControlMode, y + x);
-        mRearLeftTalon.set(m_driveControlMode, y + x);
-        mRearRightTalon.set(m_driveControlMode, y + x);
-
-        if(y>0){
-          FrontLeftWheel = 1;
-          FrontRightWheel = 1;
-          RearLeftWheel = 1;
-          RearRightWheel = 1;
-          //Foward
-        }
-        else if (y<0){
-          FrontLeftWheel = -1;
-          FrontRightWheel = -1;
-          RearLeftWheel = -1;
-          RearRightWheel = -1;
-          //Backward
-        }
- 
-
+        mFrontLeftTalon.set(m_driveControlMode, 0);
+        mFrontRightTalon.set(m_driveControlMode, 0);
+        mRearLeftTalon.set(m_driveControlMode, 0);
+        mRearRightTalon.set(m_driveControlMode,0);
     }
 
 
@@ -91,8 +65,5 @@ public class DriveSubsystem extends SubsystemBase {
   public void setControlMode(ControlMode controlMode, double velocityScale) {
     m_driveControlMode = controlMode;
   }
-
-      public void drive(double y, double x) {
-      }
 }
 
