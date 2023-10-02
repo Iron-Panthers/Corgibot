@@ -38,12 +38,33 @@ public class DriveSubsystem extends SubsystemBase {
         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
 
 
-        ySpeed.getAsDouble();
+        double y = ySpeed.getAsDouble();
+        double x = xSpeed.getAsDouble();
+        double hi = 0;
+        double ih = 0;
 
-        mFrontLeftTalon.set(m_driveControlMode, ySpeed.getAsDouble());
-        mFrontRightTalon.set(m_driveControlMode, ySpeed.getAsDouble());
-        mRearLeftTalon.set(m_driveControlMode,  ySpeed.getAsDouble());
-        mRearRightTalon.set(m_driveControlMode, ySpeed.getAsDouble());
+        if (x != 0){
+          if (y == 0){
+            ih = xSpeed.getAsDouble() * -1;
+            hi = xSpeed.getAsDouble();
+          }else if (x == 0){
+            hi = xSpeed.getAsDouble();
+            ih = xSpeed.getAsDouble();
+          }else if (y > 0 && x > 0){
+            hi = xSpeed.getAsDouble();
+          } else if (y > 0 && x < 0){
+            ih = xSpeed.getAsDouble();
+          } else if (y < 0 && x < 0){
+            hi = xSpeed.getAsDouble();
+          } else if (y < 0 && x > 0){
+            ih = xSpeed.getAsDouble();
+          }
+        }
+
+        mFrontLeftTalon.set(m_driveControlMode, x);
+        mFrontRightTalon.set(m_driveControlMode, y);
+        mRearLeftTalon.set(m_driveControlMode, x);
+        mRearRightTalon.set(m_driveControlMode, y);
     }
 
 
