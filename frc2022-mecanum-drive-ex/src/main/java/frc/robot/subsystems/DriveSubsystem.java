@@ -21,6 +21,10 @@ public class DriveSubsystem extends SubsystemBase {
     private double m_frontRightCoeff = 1;
     private double m_rearRightCoeff = 1;
 
+    private double FrontLeftWheel = 1;
+    private double FrontRightWheel = 1;
+    private double BackLeftWheel = 1;
+    private double BackRightWheel = 1;
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
 
@@ -40,31 +44,30 @@ public class DriveSubsystem extends SubsystemBase {
 
         double y = ySpeed.getAsDouble();
         double x = xSpeed.getAsDouble();
-        double hi = 0;
-        double ih = 0;
 
-        if (x != 0){
-          if (y == 0){
-            ih = xSpeed.getAsDouble() * -1;
-            hi = xSpeed.getAsDouble();
-          }else if (x == 0){
-            hi = xSpeed.getAsDouble();
-            ih = xSpeed.getAsDouble();
-          }else if (y > 0 && x > 0){
-            hi = xSpeed.getAsDouble();
-          } else if (y > 0 && x < 0){
-            ih = xSpeed.getAsDouble();
-          } else if (y < 0 && x < 0){
-            hi = xSpeed.getAsDouble();
-          } else if (y < 0 && x > 0){
-            ih = xSpeed.getAsDouble();
-          }
+        if (Math.abs(y) > Math.abs(x)){ // If the robot wants to go forward or backward. Each wheel moves either forward or backward, and the back wheels' power is reduced a bit to match the front wheels.
+          FrontLeftWheel = y;
+          FrontRightWheel = y;
+          BackLeftWheel = y * 0.57;
+          BackRightWheel = y * 0.57;
+        }
+        if (x > 0){ // If the robot wants to move right (Front Right and Back Left go backward, while Back Right and Front Left go forward)
+          FrontLeftWheel = y;
+          FrontRightWheel = y * -1;
+          BackLeftWheel = y * -1;
+          BackRightWheel = y;
+        }
+        if (x < 0){ // If the robot wants to move right (Front Right and Back Left go backward, while Back Right and Front Left go forward)
+          FrontLeftWheel = y * -1;
+          FrontRightWheel = y;
+          BackLeftWheel = y;
+          BackRightWheel = y * -1;
         }
 
-        mFrontLeftTalon.set(m_driveControlMode, x);
-        mFrontRightTalon.set(m_driveControlMode, y);
-        mRearLeftTalon.set(m_driveControlMode, x);
-        mRearRightTalon.set(m_driveControlMode, y);
+        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
+        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
+        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
     }
 
 
