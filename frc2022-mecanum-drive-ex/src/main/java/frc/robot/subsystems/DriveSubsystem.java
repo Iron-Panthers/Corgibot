@@ -45,6 +45,11 @@ public class DriveSubsystem extends SubsystemBase {
         double y = ySpeed.getAsDouble();
         double x = xSpeed.getAsDouble();
 
+        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
+        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
+        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
+        
         if (Math.abs(y) > Math.abs(x)){ // If the robot wants to go forward or backward. Each wheel moves either forward or backward, and the back wheels' power is reduced a bit to match the front wheels.
           FrontLeftWheel = y;
           FrontRightWheel = y;
@@ -54,22 +59,19 @@ public class DriveSubsystem extends SubsystemBase {
         if (x > 0){ // If the robot wants to move right (Front Right and Back Left go backward, while Back Right and Front Left go forward)
           FrontLeftWheel = y;
           FrontRightWheel = y * -1;
-          BackLeftWheel = y * -1;
-          BackRightWheel = y;
-        }
-        if (x < 0){ // If the robot wants to move right (Front Right and Back Left go backward, while Back Right and Front Left go forward)
+          BackLeftWheel = y * -0.57;
+          BackRightWheel = y * 0.57;
+        } else if (x < 0){ // If the robot wants to move right (Front Right and Back Left go backward, while Back Right and Front Left go forward)
           FrontLeftWheel = y * -1;
           FrontRightWheel = y;
-          BackLeftWheel = y;
-          BackRightWheel = y * -1;
+          BackLeftWheel = y * 0.57;
+          BackRightWheel = y * -0.57;
         }
-
-        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
-        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
-        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
-        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
     }
 
+    public void rotate(DoubleSupplier AngleSupplier){
+      
+    }
 
     
       public void setMotorCoeff(
