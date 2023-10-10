@@ -54,6 +54,8 @@ public class DriveSubsystem extends SubsystemBase {
         double mag = Math.sqrt(x * x + y * y);
         double Ypower = Math.sin(theta - 45) * mag;
         double Xpower = Math.sin(theta - 45) * mag;
+        Ypower = FrontRightWheel = BackLeftWheel;
+        Xpower = BackRightWheel = FrontLeftWheel;
    }
       public void setMotorCoeff(
         double frontLeftCoeff,
