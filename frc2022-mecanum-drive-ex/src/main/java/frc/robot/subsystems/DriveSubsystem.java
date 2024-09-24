@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -29,6 +31,8 @@ public class DriveSubsystem extends SubsystemBase {
     private double mag = 1;
     private double Ypower = 1;
     private double Xpower = 1;
+
+    private ShuffleboardTab drivebaseTab = Shuffleboard.getTab("Drivebase");
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
 

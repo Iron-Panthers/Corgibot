@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
     );
     mDriveTalons.forEach(talon -> talon.config_kF(0, 3.83625));
     mDriveTalons.forEach(talon -> talon.config_kP(0, 2.1));
-    mDriveTalons.forEach(talon -> talon.config_kI(0, 0.002));
+    mDriveTalons.forEach(talon -> talon.config_kI(0, 0));
 
     mRobotDrive = new DriveSubsystem(mFrontLeftTalon, mRearLeftTalon, mFrontRightTalon, mRearRightTalon);
     // adjust for 117rpm in front and 312rpm in back
