@@ -18,21 +18,6 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX mFrontRightTalon;
     private TalonSRX mRearRightTalon;
 
-    private double m_frontLeftCoeff = 1;
-    private double m_rearLeftCoeff = 1;
-    private double m_frontRightCoeff = 1;
-    private double m_rearRightCoeff = 1;
-
-    private double FrontRightWheel = 1;
-    private double FrontLeftWheel = 1;
-    private double BackRightWheel = 1;
-    private double BackLeftWheel = 1; 
-    private double theta = 1;
-    private double mag = 1;
-    //
-    private double Ypower = 1;
-    private double Xpower = 1;
-
     private ShuffleboardTab drivebaseTab = Shuffleboard.getTab("Drivebase");
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
@@ -44,41 +29,24 @@ public class DriveSubsystem extends SubsystemBase {
         this.mRearRightTalon = mRearRightTalon;
     }
 
-   public void drive(DoubleSupplier ySpeed, DoubleSupplier xSpeed)
+   public void drive(DoubleSupplier ySpeed, DoubleSupplier xSpeed, DoubleSupplier leftTwist, DoubleSupplier rightTwist)
    {
-    // Use the joystick X axis for lateral movement, Y axis for forward
-    // movement, and Z axis for rotation.
+        // Use the joystick X axis for lateral movement, Y axis for forward
+        // movement, and Z axis for rotation.
         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
-
-
+        double twist = -leftTwist.getAsDouble() + rightTwist.getAsDouble();
         double y = ySpeed.getAsDouble();
-        double x = xSpeed.getAsDouble();
-        // theta = Math.atan(y / x);
-        // mag = Math.sqrt(x * x + y * y);
-        // Ypower = Math.sin(theta - 45) * mag;
-        // Xpower = Math.cos(theta - 45) * mag;
-        // Ypower = FrontLeftWheel = BackRightWheel;
-        // Xpower = BackLeftWheel = FrontRightWheel;
-        double FrontLeftWheel = x + y;
-        double FrontRightWheel = y - x;
-        double BackLeftWheel = y - x;
-        double BackRightWheel = x + y;
+        double x = -xSpeed.getAsDouble();
+        double FrontLeftWheel = x + y + twist;
+        double FrontRightWheel = y - x - twist;
+        double BackLeftWheel = y - x + twist;
+        double BackRightWheel = x + y - twist;
 
         mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
         mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
         mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
         mRearRightTalon.set(m_driveControlMode, BackRightWheel);
    }
-      public void setMotorCoeff(
-        double frontLeftCoeff,
-        double rearLeftCoeff,
-        double frontRightCoeff,
-        double rearRightCoeff) {
-      m_frontLeftCoeff = frontLeftCoeff;
-      m_rearLeftCoeff = rearLeftCoeff;
-      m_frontRightCoeff = frontRightCoeff;
-      m_rearRightCoeff = rearRightCoeff;
-    }
 
       /**
    * Set control mode and velocity scale (opt)

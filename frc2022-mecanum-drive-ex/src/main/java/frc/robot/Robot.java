@@ -94,13 +94,13 @@ public class Robot extends TimedRobot {
 
     mRobotDrive = new DriveSubsystem(mFrontLeftTalon, mRearLeftTalon, mFrontRightTalon, mRearRightTalon);
     // adjust for 117rpm in front and 312rpm in back
-    mRobotDrive.setMotorCoeff(1, 0.375, 1, 0.375);
+    // mRobotDrive.setMotorCoeff(1, 0.375, 1, 0.375);
     // enable velocity control - max scale in ticks/100ms
     mRobotDrive.setControlMode(ControlMode.PercentOutput, 260);
 
 
     // IMPORTANT! Create your default command in order to drive
-    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, mRobotDrive));
+    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
      
 
   }
