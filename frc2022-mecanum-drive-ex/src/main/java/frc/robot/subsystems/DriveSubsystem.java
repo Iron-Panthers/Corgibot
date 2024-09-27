@@ -53,12 +53,17 @@ public class DriveSubsystem extends SubsystemBase {
 
         double y = ySpeed.getAsDouble();
         double x = xSpeed.getAsDouble();
-        theta = Math.atan(y / x);
-        mag = Math.sqrt(x * x + y * y);
-        Ypower = Math.sin(theta - 45) * mag;
-        Xpower = Math.cos(theta - 45) * mag;
-        Ypower = FrontLeftWheel = BackRightWheel;
-        Xpower = BackLeftWheel = FrontRightWheel;
+        // theta = Math.atan(y / x);
+        // mag = Math.sqrt(x * x + y * y);
+        // Ypower = Math.sin(theta - 45) * mag;
+        // Xpower = Math.cos(theta - 45) * mag;
+        // Ypower = FrontLeftWheel = BackRightWheel;
+        // Xpower = BackLeftWheel = FrontRightWheel;
+        double FrontLeftWheel = x + y;
+        double FrontRightWheel = y - x;
+        double BackLeftWheel = y - x;
+        double BackRightWheel = x + y;
+
         mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
         mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
         mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
