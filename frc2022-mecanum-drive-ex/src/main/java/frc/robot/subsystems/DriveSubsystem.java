@@ -29,6 +29,7 @@ public class DriveSubsystem extends SubsystemBase {
     private double BackLeftWheel = 1; 
     private double theta = 1;
     private double mag = 1;
+    //
     private double Ypower = 1;
     private double Xpower = 1;
 
@@ -52,16 +53,16 @@ public class DriveSubsystem extends SubsystemBase {
 
         double y = ySpeed.getAsDouble();
         double x = xSpeed.getAsDouble();
-        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
-        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
-        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
-        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
         theta = Math.atan(y / x);
         mag = Math.sqrt(x * x + y * y);
         Ypower = Math.sin(theta - 45) * mag;
         Xpower = Math.cos(theta - 45) * mag;
         Ypower = FrontLeftWheel = BackRightWheel;
         Xpower = BackLeftWheel = FrontRightWheel;
+        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
+        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
+        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
    }
       public void setMotorCoeff(
         double frontLeftCoeff,
