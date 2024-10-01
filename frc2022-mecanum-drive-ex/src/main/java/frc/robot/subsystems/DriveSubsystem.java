@@ -35,9 +35,9 @@ public class DriveSubsystem extends SubsystemBase {
         // Use the joystick X axis for lateral movement, Y axis for forward
         // movement, and Z axis for rotation.
         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
-        double twist = -leftTwist.getAsDouble() + rightTwist.getAsDouble();
-        double y = ySpeed.getAsDouble() * 0.75;
-        double x = -xSpeed.getAsDouble();
+        double twist = -Math.pow(leftTwist.getAsDouble(), 2) + Math.pow(rightTwist.getAsDouble(), 2);
+        double y = Math.copySign(Math.pow(ySpeed.getAsDouble(), 2), ySpeed.getAsDouble());
+        double x = Math.copySign(Math.pow(-xSpeed.getAsDouble(), 2), -xSpeed.getAsDouble());
 
         // Denominator isn't needed but can ensure all powers have the same ratio
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(twist), 1);
