@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -35,12 +36,15 @@ public class DriveSubsystem extends SubsystemBase {
         // movement, and Z axis for rotation.
         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
         double twist = -leftTwist.getAsDouble() + rightTwist.getAsDouble();
-        double y = ySpeed.getAsDouble();
+        double y = ySpeed.getAsDouble() * 0.75;
         double x = -xSpeed.getAsDouble();
-        double FrontLeftWheel = x + y + twist;
-        double FrontRightWheel = y - x - twist;
-        double BackLeftWheel = y - x + twist;
-        double BackRightWheel = x + y - twist;
+
+        // Denominator isn't needed but can ensure all powers have the same ratio
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(twist), 1);
+        double FrontLeftWheel = (y + x + twist) / denominator * 1.5;
+        double BackLeftWheel = (y - x + twist) / denominator;
+        double FrontRightWheel = (y - x - twist) / denominator * 1.5;
+        double BackRightWheel = (y + x - twist) / denominator;
 
         mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
         mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
