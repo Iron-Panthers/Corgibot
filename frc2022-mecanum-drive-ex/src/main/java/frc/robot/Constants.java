@@ -25,33 +25,7 @@ public final class Constants {
     
     public static record VisionSource(String name, Transform3d robotToCamera) {}
 
-    public static final List<VisionSource> VISION_SOURCES =
-        List.of(
-            /*new VisionSource(
-                "frontCam",
-                new Transform3d(
-                    new Translation3d(
-                        -0.305, // front/back
-                        -0.2286, // left/right
-                        -0.2159 // up/down
-                        ),
-                    new Rotation3d(
-                        0,
-                        Math.toRadians(30), // angle up/down
-                        Math.toRadians(180)))),
-            new VisionSource(
-                "backCam",
-                new Transform3d(
-                    new Translation3d(
-                        -0.2796, // front/back
-                        -0.2286, // left/right
-                        -0.2159 // up/down
-                        ),
-                    new Rotation3d(
-                        0,
-                        Math.toRadians(30), // angle up/down
-                        Math.toRadians(180)))),*/
-            new VisionSource(
+    public static final VisionSource VISION_SOURCE = new VisionSource(
                 "backUpCam",
                 new Transform3d(
                     new Translation3d(
@@ -62,7 +36,7 @@ public final class Constants {
                     new Rotation3d(
                         0,
                         Math.toRadians(30), // angle up/down
-                        Math.toRadians(180)))));
+                        Math.toRadians(180))));
 
     public static final int THREAD_SLEEP_DURATION_MS = 5;
   }
