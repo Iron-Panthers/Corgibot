@@ -35,13 +35,10 @@ public class DefaultDrive extends CommandBase {
   
     @Override
     public void execute() {
-
-        // get values from suppliers
-        // double y = ySupplier.getAsDouble();
-        // double x = xSupplier.getAsDouble();
-
-        // Use your drive method
-       mDrive.drive(ySupplier, xSupplier, leftTrigger, rightTrigger);
+      double rot = -Math.pow(leftTrigger.getAsDouble(), 2) + Math.pow(rightTrigger.getAsDouble(), 2);
+      double y = Math.copySign(Math.pow(ySupplier.getAsDouble(), 2), ySupplier.getAsDouble());
+      double x = Math.copySign(Math.pow(-xSupplier.getAsDouble(), 2), -xSupplier.getAsDouble());
+      mDrive.drive(x, y, rot);
     }
   
     @Override

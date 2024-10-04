@@ -31,11 +31,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.DefaultDrive;
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
-  /* CAN IDs; RIO is in the front left of bot */
-  private static final int kFrontLeftId = 0x03;
-  private static final int kRearLeftId = 0x06;
-  private static final int kFrontRightId = 0x01;
-  private static final int kRearRightId = 0x07;
   /* Joystick Channels */
   private static final int kJoystickAChannel = 0;
   private static final int kJoystickALeftX = 0;
@@ -60,10 +55,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    mFrontLeftTalon = new TalonSRX(kFrontLeftId);
-    mRearLeftTalon = new TalonSRX(kRearLeftId);
-    mFrontRightTalon = new TalonSRX(kFrontRightId);
-    mRearRightTalon = new TalonSRX(kRearRightId);
+    mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
+    mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
+    mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
+    mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
     List<TalonSRX> mDriveTalons = new ArrayList<>(Arrays.asList(
       mFrontLeftTalon, 
       mRearLeftTalon, 
