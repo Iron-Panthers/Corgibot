@@ -13,9 +13,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-
+import frc.robot.subsystems.VisionSubsystem;
 public class DriveSubsystem extends SubsystemBase {
-
+  private final VisionSubsystem visionSubsystem;
     private TalonSRX mFrontLeftTalon;
     private TalonSRX mRearLeftTalon;
     private TalonSRX mFrontRightTalon;
@@ -26,11 +26,12 @@ public class DriveSubsystem extends SubsystemBase {
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
     private PIDController rotController;
 
-    public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
+    public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon,VisionSubsystem visionSubsystem) {
         this.mFrontLeftTalon = mFrontLeftTalon;
         this.mRearLeftTalon = mRearLeftTalon;
         this.mFrontRightTalon = mFrontRightTalon;
         this.mRearRightTalon = mRearRightTalon;
+        this.visionSubsystem = visionSubsystem;
 
         rotController = new PIDController(0.01, 0, 0);
         rotController.setSetpoint(0);

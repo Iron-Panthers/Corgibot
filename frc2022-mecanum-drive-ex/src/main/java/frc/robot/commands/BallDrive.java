@@ -5,8 +5,9 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
-public class DefaultDrive extends CommandBase {
+public class BallDrive extends CommandBase {
     
     // Your suppliers
     private DoubleSupplier xSupplier;
@@ -16,12 +17,11 @@ public class DefaultDrive extends CommandBase {
 
     // Drivebase subsystem
     private DriveSubsystem mDrive;
+    private VisionSubsystem visionSubsystem;
 
-    public DefaultDrive (DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger, DriveSubsystem mDrive) {
-        this.xSupplier = xSupplier;
-        this.ySupplier = ySupplier;
-        this.leftTrigger = leftTrigger;
-        this.rightTrigger = rightTrigger;
+    public BallDrive (VisionSubsystem visionSubsystem, DriveSubsystem mDrive) {
+        
+        this.visionSubsystem = visionSubsystem;
         this.mDrive = mDrive;
         addRequirements(mDrive);
     }
@@ -35,9 +35,11 @@ public class DefaultDrive extends CommandBase {
   
     @Override
     public void execute() {
-      double rot = -Math.pow(leftTrigger.getAsDouble(), 2) + Math.pow(rightTrigger.getAsDouble(), 2);
-      double y = Math.copySign(Math.pow(ySupplier.getAsDouble(), 2), ySupplier.getAsDouble());
-      double x = Math.copySign(Math.pow(-xSupplier.getAsDouble(), 2), -xSupplier.getAsDouble());
+
+      // Get yaw from the vision subsystem\
+      double rot = visionSubsystem.getAngle();
+      double y = 0;
+      double x = 0.6;
       mDrive.drive(x, y, rot);
     }
   
