@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
@@ -26,8 +27,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.BallDrive;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.DefaultDrive;
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
@@ -45,13 +48,14 @@ public class Robot extends TimedRobot {
 
   //private MecanumDriveCTRE mRobotDrive;
   private DriveSubsystem mRobotDrive;
-  private XboxController xController = new XboxController(0); 
+  private VisionSubsystem visionSubsystem;
+  private CommandXboxController xController = new CommandXboxController(0); 
   private TalonSRXConfiguration mDriveTalonSRXConfigAll;
   /* Robot Commands */
   // private final DriveTimed mSimpleAuto = new DriveTimed(3, 1, 0, 0, mRobotDrive);
   // private final DriveTimed mAnotherAuto = new DriveTimed(10, 1, 0, 0, mRobotDrive);
   // SendableChooser<DriveTimed> m_chooser = new SendableChooser<>();
-  // private DriveTimed m_auto_command;
+  // private DriveTimed m_auto_command;s
 
   @Override
   public void robotInit() {
@@ -87,7 +91,8 @@ public class Robot extends TimedRobot {
     mDriveTalons.forEach(talon -> talon.config_kP(0, 2.1));
     mDriveTalons.forEach(talon -> talon.config_kI(0, 0));
 
-    mRobotDrive = new DriveSubsystem(mFrontLeftTalon, mRearLeftTalon, mFrontRightTalon, mRearRightTalon);
+    visionSubsystem = new VisionSubsystem();
+    mRobotDrive = new DriveSubsystem(mFrontLeftTalon, mRearLeftTalon, mFrontRightTalon, mRearRightTalon, visionSubsystem);
     // adjust for 117rpm in front and 312rpm in back
     // mRobotDrive.setMotorCoeff(1, 0.375, 1, 0.375);
     // enable velocity control - max scale in ticks/100ms
@@ -96,12 +101,17 @@ public class Robot extends TimedRobot {
 
     // IMPORTANT! Create your default command in order to drive
     mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
-     
 
+    xController.x().whileTrue(new BallDrive(visionSubsystem, mRobotDrive));
   }
 
   public void doSmartDashboardTelemetry() {    
     // SmartDashboard.putNumber("m_stick.x", m_stick.getX());
+    double gyatt = 0;
+    double rizzler = 0;
+    gyatt++;
+    double  skibidy = gyatt + rizzler; // prints the skibidi
+    System.out.println(skibidy);
     // SmartDashboard.putNumber("m_stick.y", m_stick.getY());
     Faults frontLeftFaults = new Faults();
     Faults frontRightFaults = new Faults();
@@ -139,7 +149,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
-    
   }
 
   // //public Command getAutonomousCommand() {

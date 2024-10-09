@@ -2,13 +2,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//import edu.wpi.first.util.protobuf.ProtobufSerializable;
 
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
+
 
 public class VisionSubsystem extends SubsystemBase {
     private PhotonCamera camera;
@@ -19,11 +20,13 @@ public class VisionSubsystem extends SubsystemBase {
         camera = new PhotonCamera("limelight");
     }
     public double getAngle(){
-       var results = camera.getLatestResult();
-      if (results.hasTargets()) {
-              return results.getBestTarget().getYaw();
-        }
-      return 0;
+       PhotonPipelineResult result = camera.getLatestResult();
+       try {
+        return result.getBestTarget().getYaw();
+       } catch (Exception e) {
+        return 0;
+       }
+     
     }
     
 }

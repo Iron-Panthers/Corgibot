@@ -13,5 +13,6 @@ public class Constants {
     }
     public class Camera {
         public static final int FOV = 60;
+        // Camera IP: 10.50.26.17:5800
     }
 }

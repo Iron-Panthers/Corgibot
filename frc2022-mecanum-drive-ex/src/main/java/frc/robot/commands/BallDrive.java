@@ -37,9 +37,9 @@ public class BallDrive extends CommandBase {
     public void execute() {
 
       // Get yaw from the vision subsystem\
-      double rot = visionSubsystem.getAngle();
-      double y = 0;
-      double x = 0.6;
+      double rot = Math.copySign(0.2, visionSubsystem.getAngle());
+      double y = 0.6;
+      double x = 0;
       mDrive.drive(x, y, rot);
     }
   

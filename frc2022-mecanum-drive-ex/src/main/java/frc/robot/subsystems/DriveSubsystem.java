@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.Drive;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -11,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystems.VisionSubsystem;
@@ -25,6 +27,17 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
     private PIDController rotController;
+    private ADIS16470_IMU gyro;
+    private Modes mode;
+    private double targetAngle;
+    private double xSpeed;
+    private double ySpeed;
+    private double rot;
+
+    public enum Modes {
+      TURNING, 
+      DEFAULT
+    }
 
     public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon,VisionSubsystem visionSubsystem) {
         this.mFrontLeftTalon = mFrontLeftTalon;
@@ -35,6 +48,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         rotController = new PIDController(0.01, 0, 0);
         rotController.setSetpoint(0);
+
+        gyro = new ADIS16470_IMU();
     }
 
    public void drive(double x, double y, double rot)
@@ -45,10 +60,10 @@ public class DriveSubsystem extends SubsystemBase {
 
         // Denominator isn't needed but can ensure all powers have the same ratio
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rot), 1);
-        double FrontLeftWheel = (y + x + rot) / denominator;
-        double BackLeftWheel = (y - x + rot) / denominator * 1.5;
-        double FrontRightWheel = (y - x - rot) / denominator;
-        double BackRightWheel = (y + x - rot) / denominator * 1.5;
+        double FrontLeftWheel = (y + x + rot) / denominator * 1.5;
+        double BackLeftWheel = (y - x + rot) / denominator;
+        double FrontRightWheel = (y - x - rot) / denominator * 1.5;
+        double BackRightWheel = (y + x - rot) / denominator;
 
         mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
         mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
@@ -56,8 +71,11 @@ public class DriveSubsystem extends SubsystemBase {
         mRearRightTalon.set(m_driveControlMode, BackRightWheel);
    }
 
-   public void rotateToAngle(double angle) {
-    double power = rotController.calculate(angle);
+   public void rotateToAngle(double targetAngle) {
+    this.targetAngle = targetAngle;
+    
+    double power = rotController.calculate(targetAngle);
+    drive(0, 0, power);
    }
 
       /**
@@ -70,9 +88,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_driveControlMode = controlMode;
   }
 
-  @Override
-  public void periodic() {
-    drive(0, 0, 0);
-  }
+  // @Override
+  // public void periodic() {
+  //   if (targetAngle > Constants.Drive.ANGLE_ERROR) {
+  //     rotateToAngle(targetAngle);
+  //   } else {
+  //     drive(xSpeed, ySpeed, rot);
+  //   }
+  // }
 }
 
