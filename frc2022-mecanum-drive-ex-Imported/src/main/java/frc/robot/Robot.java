@@ -51,7 +51,8 @@ public class Robot extends TimedRobot {
     // IMPORTANT! Create your default command in order to drive
     mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
 
-    xController.x().whileTrue(new BallDrive(visionSubsystem, mRobotDrive));
+    xController.rightBumper().whileTrue(new BallDrive(visionSubsystem, mRobotDrive));
+    
   }
 
   public void doSmartDashboardTelemetry() {    
