@@ -20,13 +20,11 @@ public class VisionSubsystem extends SubsystemBase {
         camera = new PhotonCamera("limelight");
     }
     public double getAngle(){
-       PhotonPipelineResult result = camera.getLatestResult();
-       try {
-        return result.getBestTarget().getYaw();
-       } catch (Exception e) {
+       var results = camera.getLatestResult();
+       if (results.hasTargets()) {
+        return results.getBestTarget().getYaw();
+        }
         return 0;
-       }
-     
     }
     
 }

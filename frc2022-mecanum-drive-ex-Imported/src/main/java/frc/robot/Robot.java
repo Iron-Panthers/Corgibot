@@ -44,36 +44,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    // default motor settings
-    // mDriveTalonSRXConfigAll = new TalonSRXConfiguration();
-    // mDriveTalonSRXConfigAll.forwardLimitSwitchSource = LimitSwitchSource.Deactivated;
-    // mDriveTalonSRXConfigAll.reverseLimitSwitchSource = LimitSwitchSource.Deactivated;
-    // //mDriveTalons.stream().map(t -> t.configAllSettings(mDriveTalonSRXConfigAll));
-    // //if we don't care about error codes here we can do this too: 
-    // mDriveTalons.forEach(talon -> talon.configAllSettings(mDriveTalonSRXConfigAll));
-    // // invert the right side motors
-    // // QUESTION: Why do we need to do this?
-    // mFrontRightTalon.setInverted(true);
-    // mRearRightTalon.setInverted(true);
-    // // coast the drive motors - not part of configAllSettings
-    // // QUESTION: Why do you think this does?
-    // mDriveTalons.forEach(talon -> talon.setNeutralMode(NeutralMode.Coast));
-    // // configure velocity control
-    // mDriveTalons.forEach(
-    //   talon -> talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-    // );
-    // mDriveTalons.forEach(talon -> talon.config_kF(0, 3.83625));
-    // mDriveTalons.forEach(talon -> talon.config_kP(0, 2.1));
-    // mDriveTalons.forEach(talon -> talon.config_kI(0, 0));
 
     visionSubsystem = new VisionSubsystem();
     mRobotDrive = new DriveSubsystem(visionSubsystem);
-    // // adjust for 117rpm in front and 312rpm in back
-    // // mRobotDrive.setMotorCoeff(1, 0.375, 1, 0.375);
-    // // enable velocity control - max scale in ticks/100ms
-    // mRobotDrive.setControlMode(ControlMode.PercentOutput, 260);
-
-
+    
     // IMPORTANT! Create your default command in order to drive
     mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
 

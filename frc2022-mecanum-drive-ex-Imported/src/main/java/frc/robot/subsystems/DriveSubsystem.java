@@ -65,9 +65,9 @@ public class DriveSubsystem extends SubsystemBase {
         // Denominator isn't needed but can ensure all powers have the same ratio
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rot), 1);
         double FrontLeftWheel = (y + x + rot) / denominator * 0.5;
-        double BackLeftWheel = (y - x + rot) / denominator * 0.5;
-        double FrontRightWheel = (y - x - rot) / denominator;
-        double BackRightWheel = (y + x - rot) / denominator * 0.5;
+        double BackLeftWheel = (y - x + rot) / denominator;
+        double FrontRightWheel = (y - x - rot) / denominator * 0.5;
+        double BackRightWheel = (y + x - rot) / denominator;
 
         mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, FrontLeftWheel);
         mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, FrontRightWheel);
