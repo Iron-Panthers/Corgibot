@@ -31,23 +31,16 @@ public class Robot extends TimedRobot {
   private static final int kJoystickARightX = 4;
   private static final int kJoystickARightY = 5;
 
-  //private MecanumDriveCTRE mRobotDrive;
   private DriveSubsystem mRobotDrive;
   private VisionSubsystem visionSubsystem;
-  private CommandXboxController xController = new CommandXboxController(0); 
-  // private TalonSRXConfiguration mDriveTalonSRXConfigAll;
-  /* Robot Commands */
-  // private final DriveTimed mSimpleAuto = new DriveTimed(3, 1, 0, 0, mRobotDrive);
-  // private final DriveTimed mAnotherAuto = new DriveTimed(10, 1, 0, 0, mRobotDrive);
-  // SendableChooser<DriveTimed> m_chooser = new SendableChooser<>();
-  // private DriveTimed m_auto_command;s
+  private CommandXboxController xController = new CommandXboxController(0);
 
   @Override
   public void robotInit() {
 
     visionSubsystem = new VisionSubsystem();
     mRobotDrive = new DriveSubsystem(visionSubsystem);
-    
+
     // IMPORTANT! Create your default command in order to drive
     mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
 
