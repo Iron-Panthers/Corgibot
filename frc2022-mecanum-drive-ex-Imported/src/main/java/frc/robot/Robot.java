@@ -18,11 +18,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.BallDrive;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-/** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
+
+/**
+ * This is a demo program showing how to use Mecanum control with the
+ * MecanumDrive class.
+ */
 public class Robot extends TimedRobot {
   /* Joystick Channels */
   private static final int kJoystickAChannel = 0;
@@ -39,21 +42,17 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     visionSubsystem = new VisionSubsystem();
-    mRobotDrive = new DriveSubsystem(visionSubsystem);
+    mRobotDrive = new DriveSubsystem();
 
     // IMPORTANT! Create your default command in order to drive
-    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY, xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
+    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY,
+        xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
 
-    xController.rightBumper().whileTrue(new BallDrive(visionSubsystem, mRobotDrive));
-    
   }
 
-  public void doSmartDashboardTelemetry() {    
+  public void doSmartDashboardTelemetry() {
     // SmartDashboard.putNumber("m_stick.x", m_stick.getX());
-    double gyatt = 0;
-    double rizzler = 0;
-    gyatt++;
-    double skibidy = gyatt + rizzler; // prints the skibidi
+
     // System.out.println(skibidy);
     // SmartDashboard.putNumber("m_stick.y", m_stick.getY());
     // Faults frontLeftFaults = new Faults();
@@ -68,17 +67,24 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putString("frontRight.faults", frontRightFaults.toString());
     // SmartDashboard.putString("rearLeft.faults", rearLeftFaults.toString());
     // SmartDashboard.putString("rearRight.faults", rearRightFaults.toString());
-    // SmartDashboard.putNumber("frontLeft.encoder", mFrontLeftTalon.getSensorCollection().getQuadraturePosition());
-    // SmartDashboard.putNumber("frontRight.encoder", mFrontRightTalon.getSensorCollection().getQuadraturePosition());
-    // SmartDashboard.putNumber("rearLeft.encoder", mRearLeftTalon.getSensorCollection().getQuadraturePosition());
-    // SmartDashboard.putNumber("rearRight.encoder", mRearRightTalon.getSensorCollection().getQuadraturePosition());
+    // SmartDashboard.putNumber("frontLeft.encoder",
+    // mFrontLeftTalon.getSensorCollection().getQuadraturePosition());
+    // SmartDashboard.putNumber("frontRight.encoder",
+    // mFrontRightTalon.getSensorCollection().getQuadraturePosition());
+    // SmartDashboard.putNumber("rearLeft.encoder",
+    // mRearLeftTalon.getSensorCollection().getQuadraturePosition());
+    // SmartDashboard.putNumber("rearRight.encoder",
+    // mRearRightTalon.getSensorCollection().getQuadraturePosition());
   }
 
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     // always report telemetry
@@ -86,7 +92,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+  }
 
   @Override
   public void teleopPeriodic() {
@@ -99,11 +106,11 @@ public class Robot extends TimedRobot {
 
   // @Override
   // public void autonomousInit() {
-  //   // m_auto_command = m_chooser.getSelected();
-  //   // // schedule the autonomous command
-  //   // if (m_auto_command != null) {
-  //   //   m_auto_command.schedule();
-  //   // }
+  // // m_auto_command = m_chooser.getSelected();
+  // // // schedule the autonomous command
+  // // if (m_auto_command != null) {
+  // // m_auto_command.schedule();
+  // // }
   // }
 
   // @Override
