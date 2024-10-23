@@ -45,8 +45,7 @@ public class Robot extends TimedRobot {
     mRobotDrive = new DriveSubsystem();
 
     // IMPORTANT! Create your default command in order to drive
-    mRobotDrive.setDefaultCommand(new DefaultDrive(xController::getLeftX, xController::getLeftY,
-        xController::getLeftTriggerAxis, xController::getRightTriggerAxis, mRobotDrive));
+    mRobotDrive.setDefaultCommand();
 
   }
 

@@ -7,50 +7,33 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultDrive extends Command {
-    
-    // Your suppliers
-    private DoubleSupplier xSupplier;
-    private DoubleSupplier ySupplier;
-    private DoubleSupplier leftTrigger;
-    private DoubleSupplier rightTrigger;
 
-    // Drivebase subsystem
-    private DriveSubsystem mDrive;
+  public DefaultDrive() {
 
-    public DefaultDrive (DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger, DriveSubsystem mDrive) {
-        this.xSupplier = xSupplier;
-        this.ySupplier = ySupplier;
-        this.leftTrigger = leftTrigger;
-        this.rightTrigger = rightTrigger;
-        this.mDrive = mDrive;
-        addRequirements(mDrive);
-    }
+    // Take in a subsystem and add requirements
+    addRequirements();
+  }
 
+  @Override
+  public void initialize() {
+    // Anything that needs to be reset between commands
+    // m_drive.resetEncoders();
+  }
 
-    @Override
-    public void initialize() {
-      // Anything that needs to be reset between commands
-      //m_drive.resetEncoders();
-    }
-  
-    @Override
-    public void execute() {
-      double rot = Math.pow(leftTrigger.getAsDouble(), 2) - Math.pow(rightTrigger.getAsDouble(), 2);
-      double y = Math.copySign(Math.pow(ySupplier.getAsDouble(), 2), ySupplier.getAsDouble());
-      double x = Math.copySign(Math.pow(-xSupplier.getAsDouble(), 2), -xSupplier.getAsDouble());
-      mDrive.drive(x, y, rot);
-    }
-  
-    @Override
-    public void end(boolean interrupted) {
+  @Override
+  public void execute() {
 
-      // Set your drive method to not move
-    }
-  
-    // @Override
-    // public boolean isFinished() {
-    // //   return mTimer.get() >= mTimeS;
-    // }
+  }
 
+  @Override
+  public void end(boolean interrupted) {
+
+    // Set your drive method to not move
+  }
+
+  // @Override
+  // public boolean isFinished() {
+  // // return mTimer.get() >= mTimeS;
+  // }
 
 }
