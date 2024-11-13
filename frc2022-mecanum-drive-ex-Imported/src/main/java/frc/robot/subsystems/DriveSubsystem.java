@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,6 +47,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -1);
+    mRearRightTalon.set(TalonSRXControlMode.PercentOutput, 1);
+    mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, 1);
+    mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -1);
 
   }
+
+  // public void setDefaultDrive() {
+  // // TODO Auto-generated method stub
+  // throw new UnsupportedOperationException("Unimplemented method
+  // 'setDefaultDrive'");
+  // }
 }

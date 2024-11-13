@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DefaultDrive;
+// import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -41,11 +41,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
+    // make commands here
     visionSubsystem = new VisionSubsystem();
     mRobotDrive = new DriveSubsystem();
 
-    // IMPORTANT! Create your default command in order to drive
-    mRobotDrive.setDefaultCommand();
+    // // IMPORTANT! Create your default command in order to drive
+    // mRobotDrive.setDefaultDrive();
 
   }
 
@@ -92,12 +93,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
   }
 
   @Override
   public void teleopPeriodic() {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
+    // put stuffs hererererrree
   }
 
   // //public Command getAutonomousCommand() {

@@ -2,13 +2,15 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DefaultDrive extends Command {
+public class FunnyButtons extends Command {
 
-  public DefaultDrive() {
+  public FunnyButtons() {
     // Take in a subsystem and add requirements
     addRequirements();
   }
@@ -21,7 +23,6 @@ public class DefaultDrive extends Command {
 
   @Override
   public void execute() {
-    double magic = Math.pow(10000, -36);
 
   }
 
