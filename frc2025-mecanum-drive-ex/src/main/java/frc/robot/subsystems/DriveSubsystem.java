@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -44,9 +45,22 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
    // Take in x and y and rotation
-   public void drive()
-   {
-      // Use talon.set to send power
+   public void drive(double x, double y, double z) {
+
+    double joystickAngle = Math.atan2(y, x);
+    double magnitude = Math.sqrt(x*x + y*y);
+    
+    double frontLeftPower = Math.sin(Math.toRadians(joystickAngle - 45)) * magnitude;
+    double frontRightPower = Math.sin(Math.toRadians(joystickAngle + 45)) * magnitude;
+    double rearLeftPower = frontLeftPower;
+    double rearRightPower = frontRightPower;
+
+    // Use talon.set to send power
+    mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, frontLeftPower);
+    mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, frontRightPower);
+    mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, rearLeftPower);
+    mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rearRightPower);
+
    }
 
 
