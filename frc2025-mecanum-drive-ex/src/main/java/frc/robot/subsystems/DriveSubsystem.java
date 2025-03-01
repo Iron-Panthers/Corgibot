@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -43,11 +44,25 @@ public class DriveSubsystem extends SubsystemBase {
         gyro = new ADIS16470_IMU();
     }
 
-   // Take in x and y and rotation
-   public void drive()
-   {
-      // Use talon.set to send power
-   }
+    // Take in x and y and rotation
+    public void drive(double x, double y, double z){
+
+        double joystickAngle = Math.atan2(y, x);
+        double magnitude = Math.sqrt(x*x + y*y);
+        
+        // I changed it to cos cause it makes more sense to me, but mathematically the same
+        double frontLeftPower =  Math.cos(Math.toRadians(joystickAngle - 45)) * magnitude; 
+        double frontRightPower = Math.sin(Math.toRadians(joystickAngle - 45)) * magnitude; 
+        double rearLeftPower = -frontRightPower; 
+        double rearRightPower = -frontLeftPower; 
+
+
+        // Use talon.set to send power
+        mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, frontLeftPower);
+        mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, frontRightPower);
+        mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, rearLeftPower);
+        mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rearRightPower);
+    }
 
 
    // Get the robot to turn to some degree
