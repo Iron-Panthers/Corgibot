@@ -18,21 +18,27 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveToAngle;
+import frc.robot.commands.DriveToPosition;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
- 
-
   private DriveSubsystem driveSubsystem;
   private CommandXboxController xController = new CommandXboxController(0);
 
+  public DriveCommand[] MAIN_COMMAND_QUEUE = {
+    new DriveToPosition(driveSubsystem, 10, 0.5),
+    new DriveToAngle(driveSubsystem, 180, 0.5),
+    new DriveToPosition(driveSubsystem, 10, 0.5),
+    new DriveToAngle(driveSubsystem, 0, 0.5)
+  };
+
   @Override
   public void robotInit() {
-
     driveSubsystem = new DriveSubsystem();
-
+    CommandScheduler.getInstance().schedule(MAIN_COMMAND_QUEUE); // Schedule Commands (IDK HOW THIS WORKS PLZ HELP BRANDON)
     // IMPORTANT! Create your default command in order to drive
   }
 

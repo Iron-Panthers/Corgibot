@@ -10,6 +10,7 @@ public class Constants {
             public static final int BACK_RIGHT_PORT = 0x03;
         }
         public static final int ANGLE_ERROR = 2;
+        public static final double EPSILON = 0.01;
     }
     public class Camera {
         public static final int FOV = 60;
