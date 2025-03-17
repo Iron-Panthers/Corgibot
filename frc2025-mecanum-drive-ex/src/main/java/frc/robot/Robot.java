@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,7 +39,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driveSubsystem = new DriveSubsystem();
-    CommandScheduler.getInstance().schedule(MAIN_COMMAND_QUEUE); // Schedule Commands (IDK HOW THIS WORKS PLZ HELP BRANDON)
     // IMPORTANT! Create your default command in order to drive
   }
 
@@ -69,14 +69,14 @@ public class Robot extends TimedRobot {
   // //public Command getAutonomousCommand() {
   // //}
 
-  // @Override
-  // public void autonomousInit() {
-  //   // m_auto_command = m_chooser.getSelected();
-  //   // // schedule the autonomous command
-  //   // if (m_auto_command != null) {
-  //   //   m_auto_command.schedule();
-  //   // }
-  // }
+  @Override
+  public void autonomousInit() {
+    Command m_auto_command = new SequentialCommandGroup(MAIN_COMMAND_QUEUE);
+    // schedule the autonomous command
+    if (m_auto_command != null) {
+      m_auto_command.schedule();
+    }
+  }
 
   // @Override
   // public void autonomousPeriodic() {}
