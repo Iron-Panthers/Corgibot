@@ -19,11 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class DriveSubsystem extends SubsystemBase {
 
-    private TalonSRX mFrontLeftTalon;
-    private TalonSRX mRearLeftTalon;
-    private TalonSRX mFrontRightTalon;
-    private TalonSRX mRearRightTalon;
-    // private PWMTalonSRX
 
     private ShuffleboardTab drivebaseTab = Shuffleboard.getTab("Drivebase");
 
@@ -31,43 +26,93 @@ public class DriveSubsystem extends SubsystemBase {
     private PIDController rotController;
     private ADIS16470_IMU gyro;
 
+    
+    private TalonSRX mFrontLeftTalon;
+    private TalonSRX mRearLeftTalon;
+    private TalonSRX mFrontRightTalon;
+    private TalonSRX mRearRightTalon;
 
-    // Add modes (an enum)
-   
+    private double m_frontLeftCoeff = 1;
+    private double m_rearLeftCoeff = 1;
+    private double m_frontRightCoeff = 1;
+    private double m_rearRightCoeff = 1;
 
-    public DriveSubsystem() {
-        mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
-        mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
-        mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
-        mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
+    private double FrontRightWheel = 1;
+    private double FrontLeftWheel = 1;
+    private double BackRightWheel = 1;
+    private double BackLeftWheel = 1; 
+    private double theta = 1;
+    private double mag = 1;
+    private double Ypower = 1;
+    private double Xpower = 1;
 
+    private ControlMode m_driveControlMode = ControlMode.PercentOutput;
+
+    public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
+        this.mFrontLeftTalon = mFrontLeftTalon;
+        this.mRearLeftTalon = mRearLeftTalon;
+        this.mFrontRightTalon = mFrontRightTalon;
+        this.mRearRightTalon = mRearRightTalon;
         gyro = new ADIS16470_IMU();
     }
 
-    // Take in x and y and rotation
-    public void drive(double x, double y, double z){
 
-        double joystickAngle = Math.atan2(y, x);
-        double magnitude = Math.sqrt(x*x + y*y);
+    public DriveSubsystem() {
+        this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
+        this.mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
+        this.mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
+        this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
+
+        gyro = new ADIS16470_IMU();
+    }
+    public void setSpeed(DoubleSupplier ySpeed, DoubleSupplier xSpeed)
+    {
+     // Use the joystick X axis for lateral movement, Y axis for forward
+     // movement, and Z axis for rotation.
+         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
+ 
+ 
+         double y = ySpeed.getAsDouble();
+         double x = xSpeed.getAsDouble();
         
-        // I changed it to cos cause it makes more sense to me, but mathematically the same
-        double frontLeftPower =  Math.cos(Math.toRadians(joystickAngle - 45)) * magnitude; 
-        double frontRightPower = Math.sin(Math.toRadians(joystickAngle - 45)) * magnitude; 
-        double rearLeftPower = -frontRightPower; 
-        double rearRightPower = -frontLeftPower; 
+         theta = Math.atan2(y / x);
+         mag = Math.sqrt(x * x + y * y);
 
+         Ypower = Math.sin(theta - 45) * mag;
+         Xpower = Math.cos(theta - 45) * mag;
 
-        // Use talon.set to send power
-        mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, frontLeftPower);
-        mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, frontRightPower);
-        mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, rearLeftPower);
-        mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rearRightPower);
+         FrontLeftWheel = Ypower;
+         BackRightWheel = Ypower;
+         BackLeftWheel = Xpower;
+         FrontRightWheel = Xpower;
     }
 
+    public void setMotorCoeff(
+         double frontLeftCoeff,
+         double rearLeftCoeff,
+         double frontRightCoeff,
+         double rearRightCoeff) {
+       m_frontLeftCoeff = frontLeftCoeff;
+       m_rearLeftCoeff = rearLeftCoeff;
+       m_frontRightCoeff = frontRightCoeff;
+       m_rearRightCoeff = rearRightCoeff;
+     }
+ 
+       /**
+    * Set control mode and velocity scale (opt)
+    * 
+    * @param controlMode control mode to use setting talon output
+    * @param velocityScale velocity for full scale in ticks/100ms
+    */
+   public void setControlMode(ControlMode controlMode, double velocityScale) {
+     m_driveControlMode = controlMode;
+   }
 
-   // Get the robot to turn to some degree
-   public void rotateToAngle(double targetAngle) {}
 
-    
-}
-
+   public void periodic(){
+        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
+        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
+        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
+   }
+ }
