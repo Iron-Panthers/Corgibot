@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -31,11 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX mRearLeftTalon;
     private TalonSRX mFrontRightTalon;
     private TalonSRX mRearRightTalon;
-
-    private double m_frontLeftCoeff = 1;
-    private double m_rearLeftCoeff = 1;
-    private double m_frontRightCoeff = 1;
-    private double m_rearRightCoeff = 1;
+ 
 
     private double FrontRightWheel = 1;
     private double FrontLeftWheel = 1;
@@ -58,24 +55,30 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     public DriveSubsystem() {
+
         this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
         this.mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
         this.mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
         this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
 
         gyro = new ADIS16470_IMU();
+
+        drivebaseTab.addDouble("xspeed", () -> Xpower /2);
+        drivebaseTab.addDouble("yspeed", () -> Ypower/2);
+
+        drivebaseTab.addString("coders", () -> "Shonna and Sophia");
+
+        
+        
     }
-    public void setSpeed(DoubleSupplier ySpeed, DoubleSupplier xSpeed)
+    public void setSpeed(double y, double x)
     {
      // Use the joystick X axis for lateral movement, Y axis for forward
      // movement, and Z axis for rotation.
          // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
  
- 
-         double y = ySpeed.getAsDouble();
-         double x = xSpeed.getAsDouble();
         
-         theta = Math.atan2(y / x);
+         theta = Math.atan2(y, x);
          mag = Math.sqrt(x * x + y * y);
 
          Ypower = Math.sin(theta - 45) * mag;
@@ -86,17 +89,6 @@ public class DriveSubsystem extends SubsystemBase {
          BackLeftWheel = Xpower;
          FrontRightWheel = Xpower;
     }
-
-    public void setMotorCoeff(
-         double frontLeftCoeff,
-         double rearLeftCoeff,
-         double frontRightCoeff,
-         double rearRightCoeff) {
-       m_frontLeftCoeff = frontLeftCoeff;
-       m_rearLeftCoeff = rearLeftCoeff;
-       m_frontRightCoeff = frontRightCoeff;
-       m_rearRightCoeff = rearRightCoeff;
-     }
  
        /**
     * Set control mode and velocity scale (opt)
@@ -110,9 +102,9 @@ public class DriveSubsystem extends SubsystemBase {
 
 
    public void periodic(){
-        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel);
-        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel);
-        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mFrontLeftTalon.set(m_driveControlMode, -FrontLeftWheel / 2);
+        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel /2);
+        mRearLeftTalon.set(m_driveControlMode, -BackLeftWheel);
         mRearRightTalon.set(m_driveControlMode, BackRightWheel);
    }
  }

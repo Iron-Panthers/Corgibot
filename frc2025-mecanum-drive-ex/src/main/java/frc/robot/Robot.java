@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +28,8 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem driveSubsystem;
   private CommandXboxController xController = new CommandXboxController(0);
+
+  private Joystick gertrude = new Joystick(1); 
 
   @Override
   public void robotInit() {
@@ -58,6 +61,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
+
+    driveSubsystem.setDefaultCommand(new DefaultDrive(driveSubsystem, gertrude::getY, gertrude::getX));
+    
   }
 
   // //public Command getAutonomousCommand() {
