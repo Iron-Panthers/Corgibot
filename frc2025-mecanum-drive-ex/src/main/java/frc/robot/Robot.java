@@ -20,13 +20,17 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.EngWay;
+import frc.robot.commands.ShonnaWay;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
  
 
   private DriveSubsystem driveSubsystem;
+  private VisionSubsystem visionSubsystem;
   private CommandXboxController xController = new CommandXboxController(0);
 
   private Joystick gertrude = new Joystick(1); 
@@ -35,6 +39,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     driveSubsystem = new DriveSubsystem();
+    visionSubsystem = new VisionSubsystem();
 
     // IMPORTANT! Create your default command in order to drive
   }
@@ -62,7 +67,7 @@ public class Robot extends TimedRobot {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
 
-    driveSubsystem.setDefaultCommand(new DefaultDrive(driveSubsystem, gertrude::getY, gertrude::getX));
+    driveSubsystem.setDefaultCommand(new EngWay(driveSubsystem, visionSubsystem));
     
   }
 

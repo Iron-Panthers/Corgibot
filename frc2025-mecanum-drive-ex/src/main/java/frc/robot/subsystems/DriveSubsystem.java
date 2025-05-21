@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 public class DriveSubsystem extends SubsystemBase {
 
 
@@ -26,7 +27,6 @@ public class DriveSubsystem extends SubsystemBase {
     // private ControlMode m_driveControlMode = ControlMode.PercentOutput;
     private PIDController rotController;
     private ADIS16470_IMU gyro;
-
     
     private TalonSRX mFrontLeftTalon;
     private TalonSRX mRearLeftTalon;
@@ -63,8 +63,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         gyro = new ADIS16470_IMU();
 
-        drivebaseTab.addDouble("xspeed", () -> Xpower /2);
-        drivebaseTab.addDouble("yspeed", () -> Ypower/2);
+        drivebaseTab.addDouble("right speed", () -> FrontRightWheel /2);
+        drivebaseTab.addDouble("left speed", () -> FrontLeftWheel/2);
 
         drivebaseTab.addString("coders", () -> "Shonna and Sophia");
 
@@ -89,7 +89,38 @@ public class DriveSubsystem extends SubsystemBase {
          BackLeftWheel = Xpower;
          FrontRightWheel = Xpower;
     }
- 
+    public void enguerranWay(double distance){
+      double speed = 0.;
+      if(distance < 2){
+        speed = 0;
+      }else if(distance < 50){
+        speed = 1;
+      }else{
+        speed = .1;
+      }
+
+
+      FrontLeftWheel = speed;
+      BackRightWheel = speed;
+      BackLeftWheel = speed;
+      FrontRightWheel = speed;
+    }
+    public void shonnaWay(double distance){
+      double speed = 0.;
+      if(distance < 10){
+        speed = 0;
+      }else if(distance < 50){
+        speed = .1;
+      }else{
+        speed = .5;
+      }
+
+
+      FrontLeftWheel = speed;
+      BackRightWheel = speed;
+      BackLeftWheel = speed;
+      FrontRightWheel = speed;
+    }
        /**
     * Set control mode and velocity scale (opt)
     * 
@@ -102,9 +133,9 @@ public class DriveSubsystem extends SubsystemBase {
 
 
    public void periodic(){
-        mFrontLeftTalon.set(m_driveControlMode, -FrontLeftWheel / 2);
-        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel /2);
-        mRearLeftTalon.set(m_driveControlMode, -BackLeftWheel);
-        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
+        mFrontLeftTalon.set(m_driveControlMode, FrontLeftWheel / 2);
+        mFrontRightTalon.set(m_driveControlMode, -FrontRightWheel /2);
+        mRearLeftTalon.set(m_driveControlMode, BackLeftWheel);
+        mRearRightTalon.set(m_driveControlMode, - BackRightWheel);
    }
  }
