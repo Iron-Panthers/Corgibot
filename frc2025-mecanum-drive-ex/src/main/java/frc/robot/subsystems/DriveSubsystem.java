@@ -93,10 +93,10 @@ public class DriveSubsystem extends SubsystemBase {
       double speed = 0.;
       if(distance < 2){
         speed = 0;
-      }else if(distance < 50){
+      }else if(distance < 60){
         speed = 1;
       }else{
-        speed = .1;
+        speed = .5;
       }
 
 

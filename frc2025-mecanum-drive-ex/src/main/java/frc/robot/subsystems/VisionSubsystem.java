@@ -19,22 +19,20 @@ public class VisionSubsystem extends SubsystemBase {
   //Takes in the area percentage the ball takes up
   private double areaPer;
   private double xErr;
+  private final double maxPercentage = 0.75;
   public VisionSubsystem() {
 
     visionTab.addDouble("Area Percentage", () -> areaPer);
     visionTab.addDouble("Distance", () -> getDistance());
   }
   public double getDistance(){
-    if (areaPer < 2){
+    if (areaPer < maxPercentage){
       return 0.;
     }
     return 100-areaPer;
   }
 
   public double getRotation(){
-    if(areaPer < 2){
-      return 0.;
-    }
     return xErr/20;
   }
 
@@ -42,6 +40,8 @@ public class VisionSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     areaPer = table.getEntry("ta").getDouble(0);
-    xErr = table.getEntry("tx").getDouble(0);
+    if(areaPer > maxPercentage){
+      xErr = table.getEntry("tx").getDouble(0);
+    }
   }
 }

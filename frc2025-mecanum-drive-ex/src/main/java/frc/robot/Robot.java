@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
 
-    driveSubsystem.setDefaultCommand(new ShonnaWay(driveSubsystem, visionSubsystem));
+    driveSubsystem.setDefaultCommand(new EngWay(driveSubsystem, visionSubsystem));
     
   }
 
