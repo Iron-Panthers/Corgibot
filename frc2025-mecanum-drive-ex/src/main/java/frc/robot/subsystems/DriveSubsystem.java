@@ -89,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
          BackLeftWheel = Xpower;
          FrontRightWheel = Xpower;
     }
-    public void enguerranWay(double distance){
+    public void enguerranWay(double distance, double rotation){
       double speed = 0.;
       if(distance < 2){
         speed = 0;
@@ -100,12 +100,12 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
 
-      FrontLeftWheel = speed;
-      BackRightWheel = speed;
-      BackLeftWheel = speed;
-      FrontRightWheel = speed;
+      FrontLeftWheel = speed + rotation;
+      BackRightWheel = speed - rotation;
+      BackLeftWheel = speed + rotation;
+      FrontRightWheel = speed - rotation;
     }
-    public void shonnaWay(double distance){
+    public void shonnaWay(double distance, double rotation){
       double speed = 0.;
       if(distance < 10){
         speed = 0;
@@ -116,10 +116,10 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
 
-      FrontLeftWheel = speed;
-      BackRightWheel = speed;
-      BackLeftWheel = speed;
-      FrontRightWheel = speed;
+      FrontLeftWheel = speed + rotation;
+      BackRightWheel = speed - rotation;
+      BackLeftWheel = speed + rotation;
+      FrontRightWheel = speed - rotation;
     }
        /**
     * Set control mode and velocity scale (opt)
