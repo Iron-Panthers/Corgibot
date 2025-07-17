@@ -32,12 +32,11 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX mRearLeftTalon;
     private TalonSRX mFrontRightTalon;
     private TalonSRX mRearRightTalon;
- 
 
-    private double FrontRightWheel = 1;
-    private double FrontLeftWheel = 1;
-    private double BackRightWheel = 1;
-    private double BackLeftWheel = 1; 
+    private double FrontRightWheel;
+    private double FrontLeftWheel;
+    private double BackRightWheel;
+    private double BackLeftWheel; 
     private double theta = 1;
     private double mag = 1;
     private double Ypower = 1;
@@ -45,11 +44,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
 
-    public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
+    public DriveSubsystem(TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
         this.mFrontLeftTalon = mFrontLeftTalon;
         this.mRearLeftTalon = mRearLeftTalon;
         this.mFrontRightTalon = mFrontRightTalon;
         this.mRearRightTalon = mRearRightTalon;
+
+        this.mRearLeftTalon.setInverted(true);
+        this.mRearRightTalon.setInverted(true);
+
+        this.BackLeftWheel = 0;
+        this.BackRightWheel = 0;
+        this.FrontLeftWheel= 0;
+        this.FrontRightWheel = 0;
         gyro = new ADIS16470_IMU();
     }
 
@@ -63,10 +70,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         gyro = new ADIS16470_IMU();
 
-        drivebaseTab.addDouble("xspeed", () -> Xpower /2);
-        drivebaseTab.addDouble("yspeed", () -> Ypower/2);
-
-        drivebaseTab.addString("coders", () -> "Shonna and Sophia");
+       
 
         
         
@@ -76,18 +80,24 @@ public class DriveSubsystem extends SubsystemBase {
      // Use the joystick X axis for lateral movement, Y axis for forward
      // movement, and Z axis for rotation.
          // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
- 
+      
         
-         theta = Math.atan2(y, x);
-         mag = Math.sqrt(x * x + y * y);
+         
+    }
 
-         Ypower = Math.sin(theta - 45) * mag;
-         Xpower = Math.cos(theta - 45) * mag;
 
-         FrontLeftWheel = Ypower;
-         BackRightWheel = Ypower;
-         BackLeftWheel = Xpower;
-         FrontRightWheel = Xpower;
+    public void driveHEHEHEHE(double x, double y){
+      double angle = Math.atan2(y,x);
+      double magnetude = Math.sqrt(x*x + y*y);
+      double offset = -45;
+
+      BackLeftWheel = Math.sin(angle + offset) * magnetude;
+      BackRightWheel = Math.cos(angle + offset) * magnetude;
+      FrontLeftWheel = Math.cos(angle + offset) * magnetude;
+      FrontRightWheel = Math.sin(angle + offset) * magnetude;
+      
+
+
     }
  
        /**
@@ -102,9 +112,10 @@ public class DriveSubsystem extends SubsystemBase {
 
 
    public void periodic(){
-        mFrontLeftTalon.set(m_driveControlMode, -FrontLeftWheel / 2);
-        mFrontRightTalon.set(m_driveControlMode, FrontRightWheel /2);
-        mRearLeftTalon.set(m_driveControlMode, -BackLeftWheel);
-        mRearRightTalon.set(m_driveControlMode, BackRightWheel);
+
+       this.mFrontLeftTalon.set(ControlMode.PercentOutput, FrontLeftWheel);
+       this.mRearLeftTalon.set(ControlMode.PercentOutput, BackLeftWheel);
+       this.mFrontRightTalon.set(ControlMode.PercentOutput, FrontRightWheel);
+       this.mRearRightTalon.set(ControlMode.PercentOutput, BackRightWheel);
    }
  }
