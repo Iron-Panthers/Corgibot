@@ -43,37 +43,59 @@ public class DriveSubsystem extends SubsystemBase {
     private double Xpower = 1;
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
-
-    public DriveSubsystem(TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
-        this.mFrontLeftTalon = mFrontLeftTalon;
-        this.mRearLeftTalon = mRearLeftTalon;
-        this.mFrontRightTalon = mFrontRightTalon;
-        this.mRearRightTalon = mRearRightTalon;
-
-        this.mRearLeftTalon.setInverted(true);
-        this.mRearRightTalon.setInverted(true);
-
-        this.BackLeftWheel = 0;
-        this.BackRightWheel = 0;
-        this.FrontLeftWheel= 0;
-        this.FrontRightWheel = 0;
-        gyro = new ADIS16470_IMU();
-    }
-
-
-    public DriveSubsystem() {
-
-        this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
-        this.mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
-        this.mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
-        this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
+    
+        private double angle;
+    
+        public DriveSubsystem(TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
+            this.mFrontLeftTalon = mFrontLeftTalon;
+            this.mRearLeftTalon = mRearLeftTalon;
+            this.mFrontRightTalon = mFrontRightTalon;
+            this.mRearRightTalon = mRearRightTalon;
+    
+            this.mRearLeftTalon.setInverted(true);
+            this.mRearRightTalon.setInverted(true);
+    
+            this.BackLeftWheel = 0;
+            this.BackRightWheel = 0;
+            this.FrontLeftWheel= 0;
+            this.FrontRightWheel = 0;
+            gyro = new ADIS16470_IMU();
+    
+            
+    
+          
+        }
+    
+    
+        public DriveSubsystem() {
+    
+            this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
+            this.mRearLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_LEFT_PORT);
+            this.mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
+            this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
+            this.angle = 0;
 
         gyro = new ADIS16470_IMU();
 
        
+        drivebaseTab.addDouble("BackLeftPower", () -> this.BackLeftWheel);
+        drivebaseTab.addDouble("BackRightPower", () -> this.BackRightWheel);
+        drivebaseTab.addDouble("FrontLeftPower", () -> this.FrontLeftWheel);
+        drivebaseTab.addDouble("FrontRightPower", () -> this.BackRightWheel);
+        
+        drivebaseTab.addDouble("FrontRightSpeed", () -> mFrontRightTalon.getSelectedSensorVelocity());
+        drivebaseTab.addDouble("FrontLeftSpeed", mFrontLeftTalon::getSelectedSensorVelocity);
+        drivebaseTab.addDouble("RearRightSpeed", mRearRightTalon::getSelectedSensorVelocity);
+        drivebaseTab.addDouble("RearLeftSpeed", mRearLeftTalon::getSelectedSensorVelocity);
 
-        
-        
+        drivebaseTab.addDouble("FrontRightRatshower", () -> mFrontRightTalon.getSelectedSensorVelocity() / this.FrontRightWheel);
+        drivebaseTab.addDouble("FrontLeftRatshower", () -> mFrontLeftTalon.getSelectedSensorVelocity() / this.FrontLeftWheel);
+        drivebaseTab.addDouble("RearRightRatshower", () -> mRearRightTalon.getSelectedSensorVelocity() / this.BackRightWheel);
+        drivebaseTab.addDouble("BackLeftRatshower", () -> mRearLeftTalon.getSelectedSensorVelocity() / this.BackLeftWheel);
+
+        drivebaseTab.addDouble("Angle", () -> Math.toDegrees(this.angle));
+
+      
     }
     public void setSpeed(double y, double x)
     {
@@ -81,23 +103,31 @@ public class DriveSubsystem extends SubsystemBase {
      // movement, and Z axis for rotation.
          // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
       
-        
+      
          
     }
 
-
     public void driveHEHEHEHE(double x, double y){
-      double angle = Math.atan2(y,x);
-      double magnetude = Math.sqrt(x*x + y*y);
-      double offset = -45;
-
-      BackLeftWheel = Math.sin(angle + offset) * magnetude;
-      BackRightWheel = Math.cos(angle + offset) * magnetude;
-      FrontLeftWheel = Math.cos(angle + offset) * magnetude;
-      FrontRightWheel = Math.sin(angle + offset) * magnetude;
+      this.angle = Math.toRadians(calcAngle(x, y));
+      double magnetude = calcMag(x, y);
+      BackLeftWheel = Math.sin(this.angle) * magnetude;
+      BackRightWheel = Math.cos(this.angle) * magnetude;
+      FrontLeftWheel = Math.cos(this.angle) * magnetude;
+      FrontRightWheel = Math.sin(this.angle) * magnetude;
       
 
 
+    }
+
+    public static double calcAngle(double x, double y){
+      double offset = -45;
+      double angle = Math.toDegrees(Math.atan2(y,x)) + offset;
+      return angle;
+    }
+
+    public static double calcMag(double x, double y){
+      double magnetude = Math.sqrt(x*x + y*y);
+      return magnetude;
     }
  
        /**
