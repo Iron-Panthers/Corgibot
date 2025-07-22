@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import java.util.List;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,12 +13,21 @@ import frc.robot.Constants.Drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveSubsystem extends SubsystemBase {
 
 
@@ -46,27 +56,6 @@ public class DriveSubsystem extends SubsystemBase {
     
         private double angle;
     
-        public DriveSubsystem(TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
-            this.mFrontLeftTalon = mFrontLeftTalon;
-            this.mRearLeftTalon = mRearLeftTalon;
-            this.mFrontRightTalon = mFrontRightTalon;
-            this.mRearRightTalon = mRearRightTalon;
-    
-            this.mRearLeftTalon.setInverted(true);
-            this.mRearRightTalon.setInverted(true);
-    
-            this.BackLeftWheel = 0;
-            this.BackRightWheel = 0;
-            this.FrontLeftWheel= 0;
-            this.FrontRightWheel = 0;
-            gyro = new ADIS16470_IMU();
-    
-            
-    
-          
-        }
-    
-    
         public DriveSubsystem() {
     
             this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
@@ -74,9 +63,11 @@ public class DriveSubsystem extends SubsystemBase {
             this.mFrontRightTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_RIGHT_PORT);
             this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
             this.angle = 0;
+            
 
         gyro = new ADIS16470_IMU();
-
+            this.mRearLeftTalon.setInverted(true);
+            this.mRearRightTalon.setInverted(true);
        
         drivebaseTab.addDouble("BackLeftPower", () -> this.BackLeftWheel);
         drivebaseTab.addDouble("BackRightPower", () -> this.BackRightWheel);
@@ -88,6 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
         drivebaseTab.addDouble("RearRightSpeed", mRearRightTalon::getSelectedSensorVelocity);
         drivebaseTab.addDouble("RearLeftSpeed", mRearLeftTalon::getSelectedSensorVelocity);
 
+        // ratio of wheels
         drivebaseTab.addDouble("FrontRightRatshower", () -> mFrontRightTalon.getSelectedSensorVelocity() / this.FrontRightWheel);
         drivebaseTab.addDouble("FrontLeftRatshower", () -> mFrontLeftTalon.getSelectedSensorVelocity() / this.FrontLeftWheel);
         drivebaseTab.addDouble("RearRightRatshower", () -> mRearRightTalon.getSelectedSensorVelocity() / this.BackRightWheel);
@@ -96,6 +88,26 @@ public class DriveSubsystem extends SubsystemBase {
         drivebaseTab.addDouble("Angle", () -> Math.toDegrees(this.angle));
 
       
+
+        Trajectory m_trajectory =
+              TrajectoryGenerator.generateTrajectory(
+                  new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                  List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                  new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+                  new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
+
+
+          
+
+      
+          // Create and push Field2d to SmartDashboard.
+          Field2d field = new Field2d();
+          drivebaseTab.add(field);
+      
+          // Push the trajectory to Field2d.
+          field.getObject("traj").setTrajectory(m_trajectory);
+        
+        
     }
     public void setSpeed(double y, double x)
     {
@@ -129,7 +141,13 @@ public class DriveSubsystem extends SubsystemBase {
       double magnetude = Math.sqrt(x*x + y*y);
       return magnetude;
     }
- 
+    
+    public double getSpeed(TalonSRX talon){
+      double speed = talon.getSelectedSensorVelocity();
+      return speed;
+    }
+
+
        /**
     * Set control mode and velocity scale (opt)
     * 
