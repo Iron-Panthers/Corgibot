@@ -161,9 +161,16 @@ public class DriveSubsystem extends SubsystemBase {
 
    public void periodic(){
 
-       this.mFrontLeftTalon.set(ControlMode.PercentOutput, FrontLeftWheel);
-       this.mRearLeftTalon.set(ControlMode.PercentOutput, BackLeftWheel);
-       this.mFrontRightTalon.set(ControlMode.PercentOutput, FrontRightWheel);
-       this.mRearRightTalon.set(ControlMode.PercentOutput, BackRightWheel);
+       this.mFrontLeftTalon.set(ControlMode.PercentOutput, 0);
+       this.mRearLeftTalon.set(ControlMode.PercentOutput, 0);
+       this.mFrontRightTalon.set(ControlMode.PercentOutput, 0);
+       this.mRearRightTalon.set(ControlMode.PercentOutput, 0);
+
+
+    
+      //  this.mFrontLeftTalon.set(ControlMode.MotionMagic, FrontLeftWheel);
+      //  this.mRearLeftTalon.set(ControlMode.MotionMagic, BackLeftWheel);
+      //  this.mFrontRightTalon.set(ControlMode.MotionMagic, FrontRightWheel);
+      //  this.mRearRightTalon.set(ControlMode.MotionMagic, BackRightWheel);
    }
  }
