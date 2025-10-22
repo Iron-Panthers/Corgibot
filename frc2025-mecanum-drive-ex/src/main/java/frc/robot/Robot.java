@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem driveSubsystem;
   private VisionSubsystem visionSubsystem;
+  
   private CommandXboxController xController = new CommandXboxController(0);
 
   private Joystick gertrude = new Joystick(1); 
@@ -45,7 +46,7 @@ public class Robot extends TimedRobot {
   }
 
   public void doSmartDashboardTelemetry() {    
-    // If sad, ask Brandon
+    // If sad, ask Brandonf
   }
 
   @Override
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
 
-    driveSubsystem.setDefaultCommand(new EngWay(driveSubsystem, visionSubsystem));
+    driveSubsystem.setDefaultCommand(new ShonnaWay(driveSubsystem, visionSubsystem));
     
   }
 

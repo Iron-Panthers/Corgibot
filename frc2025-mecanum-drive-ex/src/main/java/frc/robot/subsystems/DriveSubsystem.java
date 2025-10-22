@@ -107,13 +107,13 @@ public class DriveSubsystem extends SubsystemBase {
     }
     public void shonnaWay(double distance, double rotation){
       double speed = 0.;
-      if(distance < 10){
-        speed = 0;
-      }else if(distance < 50){
-        speed = .1;
-      }else{
-        speed = .5;
-      }
+      // if(distance < 10){
+      //   speed = 0;
+      // }else if(distance < 50){
+      //   speed = .1;
+      // }else{
+      //   speed = .5;
+      // }
 
 
       FrontLeftWheel = speed + rotation;
