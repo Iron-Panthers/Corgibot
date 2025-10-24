@@ -42,6 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
     private double mag = 1;
     private double Ypower = 1;
     private double Xpower = 1;
+    private double num;
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
 
@@ -89,23 +90,33 @@ public class DriveSubsystem extends SubsystemBase {
          BackLeftWheel = Xpower;
          FrontRightWheel = Xpower;
     }
-    public void enguerranWay(double distance, double rotation){
-      double speed = 0.;
-      if(distance < 2){
-        speed = 0;
-      }else if(distance < 60){
-        speed = 1;
-      }else{
-        speed = .5;
+    public void enguerranWay(double distance, double rotation, boolean good){
+      FrontLeftWheel = 0;
+      BackRightWheel = 0;
+      BackLeftWheel = 0;
+      FrontRightWheel = 0;
+      
+      if(num != 0){
+        if(rotation < 0){
+          num = 1;
+        }else{
+          num = -1; 
+        }
       }
 
-
-      FrontLeftWheel = speed + rotation;
-      BackRightWheel = speed - rotation;
-      BackLeftWheel = speed + rotation;
-      FrontRightWheel = speed - rotation;
+      if(distance != 0){
+        if(!good){
+          setSpeed(.6,.8 * num);
+        }else{
+          setSpeed(1,0);
+        }
+      }
+      FrontLeftWheel += rotation;
+      BackRightWheel -= rotation;
+      BackLeftWheel += rotation;
+      FrontRightWheel -= rotation;
     }
-    public void shonnaWay(double distance, double rotation){
+    public void shonnaWay(double distance, double rotation, boolean good){
       double speed = 0.;
       // if(distance < 10){
       //   speed = 0;
@@ -114,12 +125,11 @@ public class DriveSubsystem extends SubsystemBase {
       // }else{
       //   speed = .5;
       // }
-
-
       FrontLeftWheel = speed + rotation;
       BackRightWheel = speed - rotation;
       BackLeftWheel = speed + rotation;
       FrontRightWheel = speed - rotation;
+
     }
        /**
     * Set control mode and velocity scale (opt)

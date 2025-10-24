@@ -33,7 +33,7 @@ public class EngWay extends Command {
 
       // Get your subsystem and get it to drive
       // Hint: read from suppliers
-      driveSubsystem.enguerranWay(visionSubsystem.getDistance(), visionSubsystem.getRotation());
+      driveSubsystem.enguerranWay(visionSubsystem.getDistance(), visionSubsystem.getRotation(),visionSubsystem.isCoralGood());
     }
   
     @Override

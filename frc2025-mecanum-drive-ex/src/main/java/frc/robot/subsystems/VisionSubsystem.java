@@ -19,6 +19,7 @@ public class VisionSubsystem extends SubsystemBase {
   //Takes in the area percentage the ball takes up
   private double areaPer;
   private double xErr;
+  private double yErr;
   private final double maxPercentage = 0.75;
   public VisionSubsystem() {
 
@@ -33,15 +34,25 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public double getRotation(){
-    return xErr/20;
+    if(areaPer >= maxPercentage){
+      return xErr/27;
+    }
+    return 0;
   }
 
+  public boolean isCoralGood(){
+    double minAreaPer = Math.pow(0.799673, yErr) * 3.10763;
+    return (areaPer >= minAreaPer || yErr < -5);
+
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     areaPer = table.getEntry("ta").getDouble(0);
-    if(areaPer > maxPercentage){
-      xErr = table.getEntry("tx").getDouble(0);
-    }
+    
+    yErr = table.getEntry("ty").getDouble(0);
+    xErr = table.getEntry("tx").getDouble(0);
+    
+    
   }
 }
