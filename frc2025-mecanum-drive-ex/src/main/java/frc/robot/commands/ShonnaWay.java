@@ -33,6 +33,7 @@ public class ShonnaWay extends Command {
 
       // Get your subsystem and get it to drive
       // Hint: read from suppliers
+      //BOOOOORINGGG
       driveSubsystem.shonnaWay(visionSubsystem.getDistance(), visionSubsystem.getRotation(), visionSubsystem.isCoralGood());
     }
   

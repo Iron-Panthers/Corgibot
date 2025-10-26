@@ -39,8 +39,8 @@ public class VisionSubsystem extends SubsystemBase {
     }
     return 0;
   }
-
-  public boolean isCoralGood(){
+  //woah Shonna you're actually working on it instead of doing your hw, lolll im kidding
+  public boolean isCoralGood(){ //maybe change from area that we cannot have to area that we can have
     double minAreaPer = Math.pow(0.799673, yErr) * 3.10763;
     return (areaPer >= minAreaPer || yErr < -5);
 

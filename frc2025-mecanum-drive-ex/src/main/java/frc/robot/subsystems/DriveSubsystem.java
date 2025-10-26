@@ -96,7 +96,8 @@ public class DriveSubsystem extends SubsystemBase {
       BackLeftWheel = 0;
       FrontRightWheel = 0;
       
-      if(num != 0){
+      //FIXME
+      if(num == 0){
         if(rotation < 0){
           num = 1;
         }else{
@@ -111,6 +112,7 @@ public class DriveSubsystem extends SubsystemBase {
           setSpeed(1,0);
         }
       }
+      //the wheels on the bot goes round and round
       FrontLeftWheel += rotation;
       BackRightWheel -= rotation;
       BackLeftWheel += rotation;
