@@ -25,7 +25,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // private ControlMode m_driveControlMode = ControlMode.PercentOutput;
     private PIDController rotController;
-    private ADIS16470_IMU gyro;
+    public ADIS16470_IMU gyro;
 
     
     private TalonSRX mFrontLeftTalon;
@@ -98,6 +98,13 @@ public class DriveSubsystem extends SubsystemBase {
     */
    public void setControlMode(ControlMode controlMode, double velocityScale) {
      m_driveControlMode = controlMode;
+   }
+
+   public void drive(double rightPower, double leftPower) {
+      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, leftPower);
+      mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
+      mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, leftPower);
+      mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
    }
 
 

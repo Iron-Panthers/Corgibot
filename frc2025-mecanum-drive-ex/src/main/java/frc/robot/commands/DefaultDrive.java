@@ -12,7 +12,7 @@ public class DefaultDrive extends Command {
     private DoubleSupplier xSupplier;
 
     // Drivebase subsystem
-    private DriveSubsystem driveSubsystem;
+    public DriveSubsystem driveSubsystem;
 
     // Take in a subsystem and suppliers
     public DefaultDrive (DriveSubsystem driveSubsystem, DoubleSupplier ySupplier, DoubleSupplier xSupplier) {
@@ -47,7 +47,6 @@ public class DefaultDrive extends Command {
     @Override
     public void end(boolean interrupted) {
 
-      // Set your drive method to not move
     }
   
     // @Override
