@@ -15,17 +15,4 @@ public class Constants {
         public static final int FOV = 60;
         // Camera IP: 10.50.26.17:5800
     }
-
-    public static class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
-    }
-
-    public static class ShowcaseSubsystem {
-        public static final int MOTOR_1_PORT = 0;
-        public static final double MOTOR_1_SPEED = 0.5;
-    }
-
-    public static class WheelSubsystem {
-        public static final int WHEEL_PORT = 0;
-    }
 }

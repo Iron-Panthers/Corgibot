@@ -23,30 +23,17 @@ import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DriveToAngle;
 import frc.robot.commands.NewDrive;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.WheelSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
- 
-
   private DriveSubsystem driveSubsystem;
-  private WheelSubsystem wheelSubsystem;
   private CommandXboxController xController = new CommandXboxController(0);
 
   private Joystick gertrude = new Joystick(1); 
 
   @Override
   public void robotInit() {
-
     driveSubsystem = new DriveSubsystem();
-    wheelSubsystem = new WheelSubsystem();
-
-
-    // IMPORTANT! Create your default command in order to drive
-  }
-
-  public void setSpeed(double speed) {
-    speed = Constants.ShowcaseSubsystem.MOTOR_1_SPEED;
   }
 
   public void doSmartDashboardTelemetry() {    
@@ -79,19 +66,4 @@ public class Robot extends TimedRobot {
     //wheelSubsystem.setDefaultCommand(new DefaultDrive(wheelSubsystem, gertrude::getY, gertrude::getX));
 
   }
-
-  // //public Command getAutonomousCommand() {
-  // //}
-
-  // @Override
-  // public void autonomousInit() {
-  //   // m_auto_command = m_chooser.getSelected();
-  //   // // schedule the autonomous command
-  //   // if (m_auto_command != null) {
-  //   //   m_auto_command.schedule();
-  //   // }
-  // }
-
-  // @Override
-  // public void autonomousPeriodic() {}
 }
