@@ -5,14 +5,16 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveToAngle extends DefaultDrive {
+public class DriveToAngle extends Command {
     public double finalAngle;
     public double speed;
     public double currentAngle;
 
-    public DriveToAngle(DriveSubsystem driveSubsystem, DoubleSupplier angle, DoubleSupplier speed) {
-        super(driveSubsystem, angle, speed);
-        this.finalAngle = angle.getAsDouble();
+    public DriveToAngle(DriveSubsystem driveSubsystem, double angle, double speed) {
+        addRequirements(driveSubsystem);
+        this.driveSubsystem = driveSubsystem;
+        this.finalAngle = angle;
+        this.speed = speed;
     }
 
     @Override

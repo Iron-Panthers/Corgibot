@@ -27,17 +27,10 @@ import frc.robot.subsystems.DriveSubsystem;
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
 public class Robot extends TimedRobot {
   private DriveSubsystem driveSubsystem;
-  private CommandXboxController xController = new CommandXboxController(0);
-
-  private Joystick gertrude = new Joystick(1); 
 
   @Override
   public void robotInit() {
     driveSubsystem = new DriveSubsystem();
-  }
-
-  public void doSmartDashboardTelemetry() {    
-    // If sad, ask Brandon
   }
 
   @Override
@@ -47,23 +40,11 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    // always report telemetry
-    doSmartDashboardTelemetry();
   }
 
   @Override
   public void teleopInit() {
     DefaultDrive instance = new NewDrive(driveSubsystem, () -> 5, () -> 20);
     instance.schedule();
-  }
-
-  @Override
-  public void teleopPeriodic() {
-    // Use the joystick X axis for lateral movement, Y axis for forward
-    // movement, and Z axis for rotation.
-
-    // driveSubsystem.setDefaultCommand(new DefaultDrive(driveSubsystem, gertrude::getY, gertrude::getX));
-    //wheelSubsystem.setDefaultCommand(new DefaultDrive(wheelSubsystem, gertrude::getY, gertrude::getX));
-
   }
 }
