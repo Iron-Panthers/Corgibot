@@ -6,20 +6,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultDrive extends Command {
-    
-    // Your suppliers
-    private DoubleSupplier ySupplier;
-    private DoubleSupplier xSupplier;
-
     // Drivebase subsystem
     public DriveSubsystem driveSubsystem;
+    public double speed;
+    public double timeInSeconds;
 
     // Take in a subsystem and suppliers
-    public DefaultDrive (DriveSubsystem driveSubsystem, DoubleSupplier ySupplier, DoubleSupplier xSupplier) {
+    public DefaultDrive (DriveSubsystem driveSubsystem, double speed, double timeInSeconds) {
         // instantiate drivebase and suppliers
         this.driveSubsystem = driveSubsystem;
-        this.ySupplier = ySupplier;
-        this.xSupplier = xSupplier;
+        this.speed = speed;
+        this.timeInSeconds = timeInSeconds;
 
         addRequirements(driveSubsystem);
     }
@@ -33,26 +30,22 @@ public class DefaultDrive extends Command {
   
     @Override
     public void execute() {
-
-      // Get your subsystem and get it to drive
-      // Hint: read from suppliers
-
-      double y = ySupplier.getAsDouble();
-      double x = xSupplier.getAsDouble();
-
-      driveSubsystem.setSpeed(y,x);
-
+      timeInSeconds = timeInSeconds - 0.02;
+      driveSubsystem.drive(speed, speed);
     }
   
     @Override
     public void end(boolean interrupted) {
-
+      driveSubsystem.drive(0.0, 0.0);
     }
   
-    // @Override
-    // public boolean isFinished() {
-    // //   return mTimer.get() >= mTimeS;
-    // }
-
-
+    @Override
+    public boolean isFinished() {
+      if (timeInSeconds <= 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
 }
