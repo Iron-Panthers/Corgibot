@@ -97,9 +97,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void drive(double rightPower, double leftPower) {
-      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, leftPower);
+      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
       mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
-      mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, leftPower);
+      mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
       mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
     }
 
