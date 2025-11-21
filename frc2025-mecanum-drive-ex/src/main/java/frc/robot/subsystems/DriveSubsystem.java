@@ -18,13 +18,9 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 public class DriveSubsystem extends SubsystemBase {
-
-
     private ShuffleboardTab drivebaseTab = Shuffleboard.getTab("Drivebase");
-
-    // private ControlMode m_driveControlMode = ControlMode.PercentOutput;
-    private PIDController rotController;
     public ADIS16470_IMU gyro;
 
     
@@ -32,26 +28,6 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX mRearLeftTalon;
     private TalonSRX mFrontRightTalon;
     private TalonSRX mRearRightTalon;
- 
-
-    private double FrontRightWheel = 1;
-    private double FrontLeftWheel = 1;
-    private double BackRightWheel = 1;
-    private double BackLeftWheel = 1; 
-    private double theta = 1;
-    private double mag = 1;
-    private double Ypower = 1;
-    private double Xpower = 1;
-
-    private ControlMode m_driveControlMode = ControlMode.PercentOutput;
-
-    public DriveSubsystem( TalonSRX mFrontLeftTalon, TalonSRX mRearLeftTalon, TalonSRX mFrontRightTalon, TalonSRX mRearRightTalon) {
-        this.mFrontLeftTalon = mFrontLeftTalon;
-        this.mRearLeftTalon = mRearLeftTalon;
-        this.mFrontRightTalon = mFrontRightTalon;
-        this.mRearRightTalon = mRearRightTalon;
-        gyro = new ADIS16470_IMU();
-    }
 
     public DriveSubsystem() {
         this.mFrontLeftTalon = new TalonSRX(Constants.Drive.MotorPorts.FRONT_LEFT_PORT);
@@ -60,49 +36,5 @@ public class DriveSubsystem extends SubsystemBase {
         this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
 
         gyro = new ADIS16470_IMU();
-
-        drivebaseTab.addDouble("xspeed", () -> Xpower /2);
-        drivebaseTab.addDouble("yspeed", () -> Ypower/2);
-
-        drivebaseTab.addString("sogma", () -> "Chris mobile");    
-    }
-
-    public void setSpeed(double y, double x)
-    {
-     // Use the joystick X axis for lateral movement, Y axis for forward
-     // movement, and Z axis for rotation.
-         // mRobotDrive.driveCartesian(ySpeed, xSpeed, zRot, 0.0);
- 
-        
-         theta = Math.atan2(y, x);
-         mag = Math.sqrt(x * x + y * y);
-
-         Ypower = Math.sin(theta - 45) * mag;
-         Xpower = Math.cos(theta - 45) * mag;
-
-         FrontLeftWheel = Ypower;
-         BackRightWheel = Ypower;
-         BackLeftWheel = Xpower;
-         FrontRightWheel = Xpower;
-    }
- 
-    /**
-    * Set control mode and velocity scale (opt)
-    * 
-    * @param controlMode control mode to use setting talon output
-    * @param velocityScale velocity for full scale in ticks/100ms
-    */
-    public void setControlMode(ControlMode controlMode, double velocityScale) {
-      m_driveControlMode = controlMode;
-    }
-
-    public void drive(double rightPower, double leftPower) {
-      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
-      mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
-      mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
-      mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
-    }
-
-    public void periodic(){
     }
 }
