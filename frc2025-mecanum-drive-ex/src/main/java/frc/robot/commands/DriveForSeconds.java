@@ -12,12 +12,11 @@ public class DriveForSeconds extends Command {
     public double timeInSeconds;
 
     // Take in a subsystem and suppliers
-    public DefaultDrive (DriveSubsystem driveSubsystem, double speed, double timeInSeconds) {
+    public DriveForSeconds (DriveSubsystem driveSubsystem, double speed, double timeInSeconds) {
         // instantiate drivebase and suppliers
         this.driveSubsystem = driveSubsystem;
         this.speed = speed;
         this.timeInSeconds = timeInSeconds;
-
         addRequirements(driveSubsystem);
     }
 

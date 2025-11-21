@@ -19,9 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.DriveForSeconds;
 import frc.robot.commands.DriveToAngle;
-import frc.robot.commands.NewDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** This is a demo program showing how to use Mecanum control with the MecanumDrive class. */
@@ -44,7 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    DefaultDrive instance = new NewDrive(driveSubsystem, () -> 5, () -> 20);
+    DriveForSeconds instance = new DriveForSeconds (driveSubsystem, 1, 20);
     instance.schedule();
   }
 }
