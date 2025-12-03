@@ -42,6 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
     private double mag = 1;
     private double Ypower = 1;
     private double Xpower = 1;
+    private double angle = 0;
 
     private ControlMode m_driveControlMode = ControlMode.PercentOutput;
 
@@ -80,10 +81,16 @@ public class DriveSubsystem extends SubsystemBase {
          Ypower = Math.sin(theta - 45) * mag;
          Xpower = Math.cos(theta - 45) * mag;
 
-         FrontLeftWheel = Ypower;
-         BackRightWheel = Ypower;
-         BackLeftWheel = Xpower;
-         FrontRightWheel = Xpower;
+         double speed = 1;
+         FrontLeftWheel = Ypower*speed;
+         BackRightWheel = Ypower*speed;
+         BackLeftWheel = Xpower*speed;
+         FrontRightWheel = Xpower*speed;
+
+        mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -FrontLeftWheel);
+        mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, FrontRightWheel);
+        mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -BackLeftWheel);
+        mRearRightTalon.set(TalonSRXControlMode.PercentOutput, BackRightWheel);
     }
  
     /**
@@ -101,6 +108,23 @@ public class DriveSubsystem extends SubsystemBase {
       mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
       mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
       mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
+    }
+
+    public void driveHEHEHEHEHEHEHEHEHEHEHEHEHEHEHE (double x, double y) {
+      this.angle = Math.toRadians(calcAngle(x, y));
+      double magnitude = calcMag(x, y);
+      BackLeftWheel = Math.sin(this.angle) * magnitude;
+      BackRightWheel = Math.cos(this.angle) * magnitude;
+      FrontLeftWheel = Math.cos(this.angle) * magnitude;
+      FrontRightWheel = Math.sin(this.angle) * magnitude;
+    }
+
+    public double calcAngle(double y, double x) {
+      return Math.atan2(y, x);
+    }
+
+    public double calcMag(double y, double x) {
+      return Math.sqrt(Math.pow(y, 2) + Math.pow(x, 2));
     }
 
     public void periodic(){
