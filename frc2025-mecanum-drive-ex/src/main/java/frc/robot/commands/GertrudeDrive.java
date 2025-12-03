@@ -19,7 +19,7 @@ public class GertrudeDrive extends Command {
 
     @Override
     public void initialize() {
-        this.driveSubsystem.gyro.reset();
+        
     }
 
     @Override

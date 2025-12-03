@@ -63,8 +63,7 @@ public class Robot extends TimedRobot {
       () -> new SequentialCommandGroup(
         new DriveForSeconds(driveSubsystem, 1.0, 1.0),
         new ParallelCommandGroup(
-          new WaitUntilCommand(() -> leftButton.getAsBoolean()),
-          new DriveToAngle(driveSubsystem, 270.0, 1.0),
+          new DriveForSeconds(driveSubsystem, 1.0, 1.0),
           new WaitUntilCommand(() -> rightButton.getAsBoolean()),
           new DriveToAngle(driveSubsystem, 90.0, 1.0)
       )).schedule()));
