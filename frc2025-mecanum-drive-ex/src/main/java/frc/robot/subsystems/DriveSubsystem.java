@@ -80,10 +80,10 @@ public class DriveSubsystem extends SubsystemBase {
          Ypower = Math.sin(theta - 45) * mag;
          Xpower = Math.cos(theta - 45) * mag;
 
-         FrontLeftWheel = Ypower;
+         FrontLeftWheel = Ypower/2;
          BackRightWheel = Ypower;
          BackLeftWheel = Xpower;
-         FrontRightWheel = Xpower;
+         FrontRightWheel = Xpower/2;
     }
  
     /**
@@ -97,8 +97,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void drive(double rightPower, double leftPower) {
-      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
-      mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
+      mFrontLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower/2);
+      mFrontRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower/2);
       mRearLeftTalon.set(TalonSRXControlMode.PercentOutput, -leftPower);
       mRearRightTalon.set(TalonSRXControlMode.PercentOutput, rightPower);
     }

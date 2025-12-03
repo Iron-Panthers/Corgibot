@@ -3,9 +3,11 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToAngle extends Command {
+    public DriveSubsystem driveSubsystem;
     public double finalAngle;
     public double speed;
     public double currentAngle;
