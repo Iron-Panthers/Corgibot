@@ -18,13 +18,9 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 public class DriveSubsystem extends SubsystemBase {
-
-
     private ShuffleboardTab drivebaseTab = Shuffleboard.getTab("Drivebase");
-
-    // private ControlMode m_driveControlMode = ControlMode.PercentOutput;
-    private PIDController rotController;
     public ADIS16470_IMU gyro;
 
     
@@ -32,7 +28,6 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX mRearLeftTalon;
     private TalonSRX mFrontRightTalon;
     private TalonSRX mRearRightTalon;
- 
 
     private double FrontRightWheel = 1;
     private double FrontLeftWheel = 1;
@@ -61,11 +56,6 @@ public class DriveSubsystem extends SubsystemBase {
         this.mRearRightTalon = new TalonSRX(Constants.Drive.MotorPorts.BACK_RIGHT_PORT);
 
         gyro = new ADIS16470_IMU();
-
-        drivebaseTab.addDouble("xspeed", () -> Xpower /2);
-        drivebaseTab.addDouble("yspeed", () -> Ypower/2);
-
-        drivebaseTab.addString("sogma", () -> "Chris mobile");    
     }
 
     public void setSpeed(double y, double x)
